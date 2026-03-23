@@ -16,4 +16,4 @@ __pycache__/
 *.swp
 *.swo
 *~
-.cache/
+.cache/client/.env.production
