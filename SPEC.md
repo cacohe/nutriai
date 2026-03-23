@@ -11,7 +11,7 @@
 
 ### 后端
 - **框架**: Node.js + Express
-- **数据库**: Supabase (PostgreSQL)
+- **数据库**: Neon (PostgreSQL)
 - **AI模型**: 支持Qwen及扩展
 
 ### 前端

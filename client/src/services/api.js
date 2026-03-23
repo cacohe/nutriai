@@ -2,8 +2,6 @@ import axios from 'axios';
 
 const API_BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api';
 
-console.log('API_BASE:', API_BASE);
-
 export const analyzeFood = async (foods, timePeriod, model) => {
     const response = await axios.post(`${API_BASE}/analyze`, {
         foods,
