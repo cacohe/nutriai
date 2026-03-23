@@ -24,6 +24,6 @@ services:
     name: nutriai-client
     env: static
     region: singapore
-    buildCommand: cd client && VITE_API_URL=https://nutriai-server.onrender.com npm install && npm run build
+    buildCommand: cd client && npm install && VITE_API_URL=https://nutriai-server.onrender.com npm run build
     staticPublishPath: client/dist
     autoDeploy: true
