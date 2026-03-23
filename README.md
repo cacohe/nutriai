@@ -98,8 +98,19 @@ docker-compose up -d
 
 ## 功能说明
 
+- 用户注册/登录
 - 输入食物名称和份量
 - 选择时间段（早餐/午餐/晚餐/全天/自定义）
 - AI自动分析营养状况
-- 查看历史记录
+- 查看个人历史记录（仅显示当前用户数据）
 - 支持模型扩展
+
+## API接口
+
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| /api/auth/register | POST | 用户注册 |
+| /api/auth/login | POST | 用户登录 |
+| /api/analyze | POST | 营养分析（需登录） |
+| /api/analyses | GET | 历史记录（需登录，按user_id过滤） |
+| /api/config/models | GET | 可用模型列表 |

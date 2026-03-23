@@ -39,14 +39,22 @@
 - 可扩展支持其他模型
 - 模型配置可管理
 
-### 3.4 历史记录
-- 保存分析历史
-- 可查看历史记录
+### 3.4 用户认证
+- 用户注册（用户名+密码）
+- 用户登录（JWT Token认证）
+- Token有效期7天
+
+### 3.5 历史记录
+- 保存分析历史（关联user_id）
+- 仅显示当前用户的记录
+- 按user_id过滤保护隐私
 
 ## 4. 数据库设计
 
 ### users表
-- id: 主键
+- id: 主键(UUID)
+- username: 用户名(唯一)
+- password: 密码(bcrypt加密)
 - created_at: 创建时间
 
 ### analyses表
@@ -59,12 +67,22 @@
 
 ## 5. API设计
 
+### 用户认证
+### POST /api/auth/register
+- 输入: username, password
+- 输出: user, token
+
+### POST /api/auth/login
+- 输入: username, password
+- 输出: user, token
+
+### 营养分析（需认证）
 ### POST /api/analyze
 - 输入: foods[], time_period
 - 输出: 分析结果
 
 ### GET /api/analyses
-- 输出: 历史记录列表
+- 输出: 当前用户的历史记录列表（按user_id过滤）
 
 ### GET /api/config/models
 - 输出: 可用模型列表
@@ -77,3 +95,6 @@
 - [x] 结果分类清晰易读
 - [x] 支持扩展模型
 - [x] 代码结构清晰
+- [x] 用户注册/登录功能
+- [x] JWT Token认证
+- [x] 历史记录按user_id过滤保护隐私

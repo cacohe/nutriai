@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FoodInput from './components/FoodInput';
 import ResultDisplay from './components/ResultDisplay';
 import History from './components/History';
+import Auth from './components/Auth';
 import { analyzeFood, getHistory } from './services/api';
 
 function App() {
@@ -10,10 +11,34 @@ function App() {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        loadHistory();
+        const savedUser = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+        if (savedUser && token) {
+            setUser(JSON.parse(savedUser));
+        }
     }, []);
+
+    useEffect(() => {
+        if (user) {
+            loadHistory();
+        }
+    }, [user]);
+
+    const handleLogin = (userData) => {
+        setUser(userData.user);
+        loadHistory();
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+        setHistory([]);
+        setResult(null);
+    };
 
     const loadHistory = async () => {
         try {
@@ -22,6 +47,9 @@ function App() {
                 setHistory(res.data);
             }
         } catch (e) {
+            if (e.response?.status === 401 || e.response?.status === 403) {
+                handleLogout();
+            }
             console.error('加载历史失败:', e);
         }
     };
@@ -53,11 +81,19 @@ function App() {
         setResult(item.result);
     };
 
+    if (!user) {
+        return <Auth onLogin={handleLogin} />;
+    }
+
     return (
         <div className="container">
             <div className="header">
                 <h1>NutriAI 智能营养分析</h1>
                 <p>输入您吃的食物，AI为您分析营养状况</p>
+                <div className="user-info">
+                    <span>欢迎，{user.username}</span>
+                    <button onClick={handleLogout} className="btn-logout">退出</button>
+                </div>
             </div>
 
             {error && <div className="error">{error}</div>}
