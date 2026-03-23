@@ -14,6 +14,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api', analysisRouter);
+app.use('/', analysisRouter);
 
 app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
